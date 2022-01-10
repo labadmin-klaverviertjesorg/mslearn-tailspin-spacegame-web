@@ -43,17 +43,22 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Acceptatie'
-
-- template: templates/build.yml
-  parameters:
-    buildConfiguration: 'Debug'
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'SonarQube'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'Space_Game_-_web_-_Pipeline_Space_Game_-_web'
+    cliProjectName: 'Space Game'
+    cliSources: '.'
 
 - template: templates/build.yml
   parameters:
     buildConfiguration: 'Release'
+
+- task: SonarQubeAnalyze@5
+
+- task: SonarQubePublish@5
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
