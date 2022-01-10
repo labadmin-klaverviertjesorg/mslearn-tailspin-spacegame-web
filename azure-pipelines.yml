@@ -71,9 +71,16 @@ steps:
   parameters:
     buildConfiguration: 'Release'
 
-- task: SonarQubeAnalyze@5
+#- task: SonarQubeAnalyze@5
 
-- task: SonarQubePublish@5
+#- task: SonarQubePublish@5
+
+- task: CmdLine@2
+  displayName: 'Collect Sonar results and Upload'
+  inputs:
+    script: |
+      echo Run Sonar End
+      dotnet-sonarscanner end /d:sonar.login="033244350b2e4ee618001536a97413b4e1639978"
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
