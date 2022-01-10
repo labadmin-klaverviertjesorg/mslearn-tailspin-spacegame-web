@@ -7,9 +7,11 @@ trigger:
 - '*'
 
 pool:
-  vmImage: 'ubuntu-20.04'
-  demands:
-  - npm
+  pool:
+  name: Default
+  demands: 
+   - agent.name -equals ubuntu-18
+   - npm
 
 variables:
   buildConfiguration: 'Release'
