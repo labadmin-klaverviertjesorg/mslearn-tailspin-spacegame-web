@@ -45,14 +45,27 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
-- task: SonarQubePrepare@5
+#- task: SonarQubePrepare@5
+#  inputs:
+#    SonarQube: 'SonarQube'
+#    scannerMode: 'CLI'
+#    configMode: 'manual'
+#    cliProjectKey: 'Space_Game_-_web_-_Pipeline_Space_Game_-_web'
+#    cliProjectName: 'Space Game'
+#    cliSources: '.'
+
+
+
+- task: CmdLine@2
+  displayName: 'Install Sonar Tools and Start Scanner'
   inputs:
-    SonarQube: 'SonarQube'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliProjectKey: 'Space_Game_-_web_-_Pipeline_Space_Game_-_web'
-    cliProjectName: 'Space Game'
-    cliSources: '.'
+    script: |
+      echo Installing sonarScanner tool
+      dotnet tool install --global dotnet-sonarscanner 
+
+      echo Start Scanner
+      dotnet-sonarscanner begin /k:"Analyze "Space Game - web"  1" /d:sonar.host.url="http://192.168.1.16:9000/" /d:sonar.login="033244350b2e4ee618001536a97413b4e1639978"
+
 
 - template: templates/build.yml
   parameters:
